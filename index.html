@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcanly - AI-Powered Tarot & Psychic Readings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Newsreader:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #7211d4;
+            --primary-hover: #8322f5;
+            --bg-primary: #1a1122;
+            --bg-secondary: #261933;
+            --border-color: #362348;
+            --text-primary: #ffffff;
+            --text-secondary: #ad92c9;
+            --text-muted: #6b5b73;
+            --accent-purple: #E0B0FF;
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Newsreader', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(114, 17, 212, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(114, 17, 212, 0.6), 0 0 40px rgba(114, 17, 212, 0.4); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(26, 17, 34, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(54, 35, 72, 0.5);
+            padding: 1rem 2.5rem;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-purple);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .sign-in-btn {
+            padding: 0.6rem 1.5rem;
+            background: var(--border-color);
+            border: none;
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sign-in-btn:hover {
+            background: #4d3267;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 4rem 2rem;
+            border-radius: 1.5rem;
+            background: linear-gradient(135deg, rgba(26, 17, 34, 0.9) 0%, rgba(26, 17, 34, 0.7) 100%),
+                        linear-gradient(45deg, #1a1122, #261933, #362348, #1a1122);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(114, 17, 212, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-purple) 50%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Question Interface */
+        .question-interface {
+            background: rgba(54, 35, 72, 0.3);
+            border: 1px solid rgba(114, 17, 212, 0.3);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 700px;
+            backdrop-filter: blur(20px);
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        .question-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-title h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .question-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .spread-selection {
+            margin-bottom: 2rem;
+        }
+
+        .spread-selection h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .spread-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .spread-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(114, 17, 212, 0.2);
+            border: 1px solid rgba(114, 17, 212, 0.5);
+            border-radius: 2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spread-btn:hover,
+        .spread-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(114, 17, 212, 0.4);
+        }
+
+        .question-input {
+            width: 100%;
+            background: rgba(54, 35, 72, 0.5);
+            border: 1px solid rgba(114, 17, 212, 0.3);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 1.5rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(114, 17, 212, 0.2);
+        }
+
+        .question-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .draw-cards-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            border: none;
+            border-radius: 1rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .draw-cards-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(114, 17, 212, 0.4);
+        }
+
+        .draw-cards-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Features Section */
+        .features {
+            margin: 6rem 0;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(38, 25, 51, 0.8) 0%, rgba(26, 17, 34, 0.8) 100%);
+            border: 1px solid rgba(77, 50, 103, 0.5);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-purple), var(--primary-color));
+            border-radius: 1.5rem;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Affiliate Section */
+        .affiliate-section {
+            background: linear-gradient(135deg, rgba(114, 17, 212, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(114, 17, 212, 0.3);
+            border-radius: 2rem;
+            padding: 3rem;
+            text-align: center;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .affiliate-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(114, 17, 212, 0.05) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .affiliate-section h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--accent-purple);
+            position: relative;
+            z-index: 2;
+        }
+
+        .affiliate-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 3rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(114, 17, 212, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(114, 17, 212, 0.6);
+        }
+
+        /* Reading Results Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+
+        .reading-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .reading-header h2 {
+            font-family: 'Newsreader', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reading-header p {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .tarot-card {
+            width: 140px;
+            height: 230px;
+            background: linear-gradient(135deg, #4a148c, #7b1fa2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tarot-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-purple));
+            border-radius: 15px;
+            z-index: -1;
+        }
+
+        .tarot-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 20px 50px rgba(114, 17, 212, 0.5);
+        }
+
+        .card-revealed {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: var(--bg-primary);
+        }
+
+        .reading-result {
+            background: rgba(114, 17, 212, 0.1);
+            border: 1px solid rgba(114, 17, 212, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .reading-result h4 {
+            color: var(--accent-purple);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .reading-result p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--border-color);
+            margin-top: 6rem;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                min-height: 60vh;
+                padding: 3rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .question-interface {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .spread-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .spread-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-container {
+                gap: 1rem;
+            }
+
+            .tarot-card {
+                width: 100px;
+                height: 160px;
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+                </svg>
+                <h1>Arcanly</h1>
+            </a>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#readings">Free Reading</a></li>
+                    <li><a href="#professional">Professional Readings</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Unlock Your Future with AI-Powered Tarot</h1>
+                <p>Experience the ancient wisdom of Tarot, enhanced by cutting-edge AI technology. Get a free, personalized reading in minutes.</p>
+                
+                <!-- Question Interface -->
+                <div class="question-interface float">
+                    <div class="question-title">
+                        <span class="material-symbols-outlined" style="color: var(--accent-purple); font-size: 2rem;">auto_awesome</span>
+                        <h2>Ask Your Question</h2>
+                    </div>
+                    <p class="question-subtitle">Focus your mind and ask what your heart truly wants to know</p>
+                    
+                    <div class="spread-selection">
+                        <h3>Choose Your Reading:</h3>
+                        <div class="spread-buttons">
+                            <button class="spread-btn active" data-spread="single">Single Card</button>
+                            <button class="spread-btn" data-spread="three">Three Card Spread</button>
+                            <button class="spread-btn" data-spread="love">Love Reading</button>
+                        </div>
+                    </div>
+                    
+                    <textarea 
+                        class="question-input" 
+                        placeholder="What guidance do you seek? Ask about love, career, personal growth, or any situation weighing on your mind..."
+                        maxlength="500"
+                        id="userQuestion"
+                    ></textarea>
+                    
+                    <button class="draw-cards-btn" onclick="drawCards()">
+                        🃏 Draw Cards & Get Reading
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Why Choose Arcanly?</h2>
+            <p>Arcanly combines the mystical art of Tarot with the precision of AI to provide insightful and personalized readings, instantly available whenever you need guidance.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card float" style="animation-delay: 0s;">
+                    <div class="feature-icon">
+                        <span class="material-symbols-outlined">psychology</span>
+                    </div>
+                    <h3>AI-Enhanced Insights</h3>
+                    <p>Our advanced AI analyzes your questions and card selections to deliver remarkably accurate and personalized interpretations.</p>
+                </div>
+                
+                <div class="feature-card float" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">
+                        <span class="material-symbols-outlined">flash_on</span>
+                    </div>
+                    <h3>Instant Readings</h3>
+                    <p>Receive your personalized Tarot reading instantly, without the need for appointments or waiting periods.</p>
+                </div>
+                
+                <div class="feature-card float" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">
+                        <span class="material-symbols-outlined">schedule</span>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Access Arcanly anytime, anywhere, and gain valuable insights into your life's journey at your convenience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Affiliate Section -->
+        <section class="affiliate-section" id="professional">
+            <h3>Ready for Deeper Insights?</h3>
+            <p>While our AI readings provide amazing insights, sometimes you need the personal touch of an experienced psychic. Connect with verified professionals on Keen.com for personalized guidance tailored specifically to your unique situation.</p>
+            <a href="https://keen.com" target="_blank" class="cta-button">Connect with Live Psychics</a>
+            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">✨ First 3 minutes FREE for new members</p>
+        </section>
+    </div>
+
+    <!-- Reading Results Modal -->
+    <div id="readingModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="reading-header">
+                <h2>Your Tarot Reading</h2>
+                <p>The cards have been drawn, and the universe has spoken...</p>
+            </div>
+            <div id="readingContent">
+                <div class="loading">Consulting the cards...</div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Want deeper insights from a live psychic?</p>
+                <a href="https://keen.com" target="_blank" class="cta-button">Get Professional Reading</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+    <div class="main-container">
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/contact">Contact Us</a>
+        </div>
+        <p class="footer-text">© 2025 Arcanly. All rights reserved.</p>
+        <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">Tarot readings are for entertainment purposes only. AI readings aren’t legal/financial/ health advice</p>
+        <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">We may earn a commission from affiliate links if you use our partners’ services.</p>
+    </div>
+</footer>
+
+    <script>
+        // Global variables
+        let selectedSpread = 'single';
+        let isDrawing = false;
+
+        // Tarot card database with detailed interpretations
+        const tarotCards = {
+            single: [
+                {
+                    name: "The Star",
+                    emoji: "⭐",
+                    meaning: "Hope and inspiration illuminate your path forward. This is a time of healing, renewal, and spiritual guidance. Trust in your dreams and let your inner light shine brightly. The universe is aligning to support your highest good, and positive changes are flowing into your life like starlight breaking through darkness.",
+                    image: "A figure kneeling by water under a starlit sky, pouring water from two vessels - one onto the land, one into the pool. Seven small stars and one large star shine overhead."
+                },
+                {
+                    name: "The Sun",
+                    emoji: "☀️",
+                    meaning: "Pure joy, success, and vitality surround you. This card brings optimism, achievement, and a time of celebration. Your authentic self is ready to shine, and happiness is within reach. Embrace the warmth of this positive energy and let it fuel your confidence to pursue your dreams with enthusiasm.",
+                    image: "A radiant sun with a face shines down on a child riding a white horse. Sunflowers bloom in the background, symbolizing growth and positivity."
+                },
+                {
+                    name: "The Lovers",
+                    emoji: "💕",
+                    meaning: "A significant choice or relationship decision awaits you. This card speaks of harmony, union, and alignment between heart and mind. Whether in love or life decisions, seek balance and make choices that resonate with your authentic values. True partnerships require mutual respect and understanding.",
+                    image: "A man and woman stand beneath an angel, with the Tree of Life and Tree of Knowledge behind them. The angel blesses their union from above."
+                },
+                {
+                    name: "Wheel of Fortune",
+                    emoji: "🎡",
+                    meaning: "Life's cycles are turning in your favor. Change, destiny, and new opportunities are approaching. What goes up must come down, and what is down will rise again. Embrace the natural flow of life's ups and downs, knowing that every ending creates space for a beautiful new beginning.",
+                    image: "A large wheel with mystical symbols rotates in the clouds. A sphinx sits atop, while a snake descends on the left and Anubis rises on the right."
+                }
+            ],
+            three: [
+                {
+                    cards: [
+                        { name: "Two of Cups", position: "Past", emoji: "🥂" },
+                        { name: "Three of Pentacles", position: "Present", emoji: "🛠️" },
+                        { name: "The Magician", position: "Future", emoji: "🎩" }
+                    ],
+                    meaning: "Your past connections and partnerships have laid a foundation of cooperation and mutual understanding. Currently, you're in a phase of building, learning, and collaborative growth - your skills and efforts are being recognized. The future holds powerful manifestation abilities; you have all the tools needed to create your desired reality. Trust in your capabilities and take action with confidence."
+                },
+                {
+                    cards: [
+                        { name: "Five of Swords", position: "Past", emoji: "⚔️" },
+                        { name: "The Hermit", position: "Present", emoji: "🔦" },
+                        { name: "Ace of Wands", position: "Future", emoji: "🌟" }
+                    ],
+                    meaning: "Past conflicts or defeats have led to important lessons about choosing your battles wisely. Now you're in a period of introspection and soul-searching, seeking inner wisdom and guidance. This inner work will soon bear fruit as new creative opportunities and passionate pursuits emerge. A spark of inspiration is coming that will ignite your next chapter."
+                }
+            ],
+            love: [
+                {
+                    name: "Two of Cups",
+                    emoji: "💑",
+                    meaning: "A beautiful partnership or soulmate connection is highlighted in your love life. This card represents mutual attraction, emotional harmony, and the potential for a deep, meaningful relationship. If you're single, love may be approaching. If partnered, this indicates a period of renewed connection and understanding with your significant other.",
+                    image: "Two figures face each other, holding cups in a toast. Above them, a winged lion's head represents the union of opposites and passionate love."
+                },
+                {
+                    name: "Ten of Cups",
+                    emoji: "🌈",
+                    meaning: "Emotional fulfillment and happiness in relationships are yours to embrace. This card represents the ideal of loving family bonds, committed partnerships, and joy shared with others. Your heart is open to giving and receiving love, and the universe is supporting harmonious relationships in your life.",
+                    image: "A couple raises their arms in celebration while two children play nearby. Ten cups arc across a rainbow in the sky, representing complete emotional satisfaction."
+                },
+                {
+                    name: "The Empress",
+                    emoji: "👸",
+                    meaning: "Divine feminine energy and nurturing love surround you. This card speaks of fertility, creativity, and abundance in matters of the heart. You're embodying magnetic, loving energy that attracts others to you. Whether seeking love or deepening existing bonds, your caring and compassionate nature is your greatest strength.",
+                    image: "A crowned empress sits on a throne in a lush garden, pregnant with new life. Venus symbols adorn her gown, and wheat grows at her feet."
+                }
+            ]
+        };
+
+        // Spread selection
+        document.querySelectorAll('.spread-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.spread-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedSpread = this.dataset.spread;
+            });
+        });
+
+        // Main card drawing function
+        async function drawCards() {
+            if (isDrawing) return;
+            
+            const question = document.getElementById('userQuestion').value.trim();
+            if (!question) {
+                alert('Please enter your question before drawing cards.');
+                return;
+            }
+
+            isDrawing = true;
+            const btn = document.querySelector('.draw-cards-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Drawing Cards... ✨';
+            btn.disabled = true;
+
+            // Show modal with loading
+            document.getElementById('readingModal').style.display = 'flex';
+            document.getElementById('readingContent').innerHTML = '<div class="loading">The cards are being shuffled by cosmic forces...</div>';
+
+            // Simulate card drawing delay
+            setTimeout(() => {
+                generateReading(question);
+                isDrawing = false;
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function generateReading(question) {
+            const cards = tarotCards[selectedSpread];
+            let selectedCard;
+
+            if (selectedSpread === 'three') {
+                selectedCard = cards[Math.floor(Math.random() * cards.length)];
+            } else {
+                selectedCard = cards[Math.floor(Math.random() * cards.length)];
+            }
+
+            let html = '';
+
+            if (selectedSpread === 'three') {
+                // Three card spread layout
+                html = `
+                    <div class="cards-container">
+                        ${selectedCard.cards.map(card => `
+                            <div class="tarot-card card-revealed">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">${card.emoji}</div>
+                                    <div style="font-size: 0.7rem; font-weight: bold; margin-bottom: 0.3rem;">${card.position.toUpperCase()}</div>
+                                    <div style="font-size: 0.8rem; line-height: 1.2;">${card.name}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="reading-result">
+                        <h4>Your Three-Card Reading: Past • Present • Future</h4>
+                        <p><strong>Your Question:</strong> "${question}"</p>
+                        <br>
+                        <p>${selectedCard.meaning}</p>
+                    </div>
+                `;
+            } else {
+                // Single card layout
+                html = `
+                    <div class="cards-container">
+                        <div class="tarot-card card-revealed">
+                            <div style="text-align: center;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">${selectedCard.emoji}</div>
+                                <div style="font-size: 1rem; font-weight: bold; line-height: 1.2;">${selectedCard.name}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reading-result">
+                        <h4>${selectedCard.name} - Your Guidance</h4>
+                        <p><strong>Your Question:</strong> "${question}"</p>
+                        <br>
+                        <p>${selectedCard.meaning}</p>
+                        ${selectedCard.image ? `<br><p style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">Card imagery: ${selectedCard.image}</p>` : ''}
+                    </div>
+                `;
+            }
+
+            document.getElementById('readingContent').innerHTML = html;
+        }
+
+        function closeModal() {
+            document.getElementById('readingModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('readingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive sparkle effects
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.fontSize = Math.random() * 20 + 10 + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '1000';
+            sparkle.style.opacity = '0.7';
+            sparkle.style.animation = 'float 3s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        // Create occasional sparkles
+        setInterval(createSparkle, 3000);
+
+        // Add entrance animations when elements come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
