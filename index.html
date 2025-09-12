@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcanly - AI-Powered Tarot & Psychic Readings</title>
+    <meta name="description" content="Get free, AI-powered tarot readings with Arcanly. Experience personalized insights instantly.">
+    <meta name="robots" content="index, follow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Newsreader:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -36,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* Floating Animation */
+        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -51,6 +52,11 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(180deg); }
         }
 
         .float {
@@ -122,6 +128,11 @@
             color: var(--text-primary);
         }
 
+        .nav-links a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -135,22 +146,6 @@
 
         .nav-links a:hover::after {
             width: 100%;
-        }
-
-        .sign-in-btn {
-            padding: 0.6rem 1.5rem;
-            background: var(--border-color);
-            border: none;
-            border-radius: 0.5rem;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .sign-in-btn:hover {
-            background: #4d3267;
         }
 
         /* Main Content */
@@ -287,6 +282,11 @@
             box-shadow: 0 8px 25px rgba(114, 17, 212, 0.4);
         }
 
+        .spread-btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
         .question-input {
             width: 100%;
             background: rgba(54, 35, 72, 0.5);
@@ -303,8 +303,7 @@
         }
 
         .question-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
+            outline: 2px solid var(--primary-color);
             box-shadow: 0 0 0 3px rgba(114, 17, 212, 0.2);
         }
 
@@ -336,6 +335,11 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .draw-cards-btn:focus {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
         }
 
         /* Features Section */
@@ -494,6 +498,11 @@
             box-shadow: 0 15px 40px rgba(114, 17, 212, 0.6);
         }
 
+        .cta-button:focus {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+
         /* Reading Results Modal */
         .modal {
             display: none;
@@ -532,8 +541,11 @@
             transition: color 0.3s ease;
         }
 
-        .close-modal:hover {
+        .close-modal:hover,
+        .close-modal:focus {
             color: var(--text-primary);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         .reading-header {
@@ -569,39 +581,82 @@
         .tarot-card {
             width: 140px;
             height: 230px;
-            background: linear-gradient(135deg, #4a148c, #7b1fa2);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            perspective: 1000px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .tarot-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-purple));
-            border-radius: 15px;
-            z-index: -1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
         }
 
         .tarot-card:hover {
-            transform: translateY(-10px) rotateY(5deg);
+            transform: translateY(-10px);
             box-shadow: 0 20px 50px rgba(114, 17, 212, 0.5);
         }
 
-        .card-revealed {
+        .tarot-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+        }
+
+        .tarot-card.flipped .tarot-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .tarot-card-front,
+        .tarot-card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--accent-purple);
+        }
+
+        .tarot-card-front {
+            background: url('https://placehold.co/140x230/1a1122/E0B0FF?text=Card+Back') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tarot-card-back {
             background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
             color: var(--bg-primary);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .tarot-card-back img {
+            width: 100%;
+            max-height: 60%;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tarot-card-back h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .tarot-card-back p {
+            font-size: 0.8rem;
+            color: var(--bg-secondary);
+            line-height: 1.3;
+            max-height: 30%;
+            overflow-y: auto;
         }
 
         .reading-result {
@@ -670,8 +725,11 @@
             transition: color 0.3s ease;
         }
 
-        .footer-links a:hover {
+        .footer-links a:hover,
+        .footer-links a:focus {
             color: var(--text-primary);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         .footer-text {
@@ -720,7 +778,18 @@
             .tarot-card {
                 width: 100px;
                 height: 160px;
-                font-size: 2rem;
+            }
+
+            .tarot-card-back img {
+                max-height: 50%;
+            }
+
+            .tarot-card-back h4 {
+                font-size: 0.8rem;
+            }
+
+            .tarot-card-back p {
+                font-size: 0.7rem;
             }
 
             .modal-content {
@@ -780,9 +849,10 @@
                         placeholder="What guidance do you seek? Ask about love, career, personal growth, or any situation weighing on your mind..."
                         maxlength="500"
                         id="userQuestion"
+                        aria-label="Enter your question for the tarot reading"
                     ></textarea>
                     
-                    <button class="draw-cards-btn" onclick="drawCards()">
+                    <button class="draw-cards-btn" onclick="drawCards()" aria-label="Draw tarot cards for reading">
                         🃏 Draw Cards & Get Reading
                     </button>
                 </div>
@@ -825,16 +895,16 @@
         <section class="affiliate-section" id="professional">
             <h3>Ready for Deeper Insights?</h3>
             <p>While our AI readings provide amazing insights, sometimes you need the personal touch of an experienced psychic. Connect with verified professionals on Keen.com for personalized guidance tailored specifically to your unique situation.</p>
-            <a href="https://keen.com" target="_blank" class="cta-button">Connect with Live Psychics</a>
+            <a href="https://keen.com" target="_blank" class="cta-button" aria-label="Connect with live psychics on Keen.com">Connect with Live Psychics</a>
             <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">✨ First 3 minutes FREE for new members</p>
         </section>
     </div>
 
     <!-- Reading Results Modal -->
-    <div id="readingModal" class="modal">
+    <div id="readingModal" class="modal" role="dialog" aria-labelledby="reading-header">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="reading-header">
+            <button class="close-modal" onclick="closeModal()" aria-label="Close tarot reading modal">&times;</button>
+            <div class="reading-header" id="reading-header">
                 <h2>Your Tarot Reading</h2>
                 <p>The cards have been drawn, and the universe has spoken...</p>
             </div>
@@ -843,97 +913,803 @@
             </div>
             <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Want deeper insights from a live psychic?</p>
-                <a href="https://keen.com" target="_blank" class="cta-button">Get Professional Reading</a>
+                <a href="https://keen.com" target="_blank" class="cta-button" aria-label="Get a professional psychic reading on Keen.com">Get Professional Reading</a>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-    <div class="main-container">
-        <div class="footer-links">
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms of Service</a>
-            <a href="/contact">Contact Us</a>
+        <div class="main-container">
+            <div class="footer-links">
+                <a href="/privacy" aria-label="View Privacy Policy">Privacy Policy</a>
+                <a href="/terms" aria-label="View Terms of Service">Terms of Service</a>
+                <a href="/contact" aria-label="Contact Us">Contact Us</a>
+            </div>
+            <p class="footer-text">© 2025 Arcanly. All rights reserved.</p>
+            <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">Tarot readings are for entertainment purposes only. AI readings aren’t legal/financial/health advice.</p>
+            <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">We may earn a commission from affiliate links if you use our partners’ services.</p>
+            <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">We strive to make Arcanly accessible to all users. Contact us for support.</p>
         </div>
-        <p class="footer-text">© 2025 Arcanly. All rights reserved.</p>
-        <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">Tarot readings are for entertainment purposes only. AI readings aren’t legal/financial/ health advice</p>
-        <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.8rem;">We may earn a commission from affiliate links if you use our partners’ services.</p>
-    </div>
-</footer>
+    </footer>
 
     <script>
         // Global variables
         let selectedSpread = 'single';
         let isDrawing = false;
 
-        // Tarot card database with detailed interpretations
-        const tarotCards = {
-            single: [
-                {
-                    name: "The Star",
-                    emoji: "⭐",
-                    meaning: "Hope and inspiration illuminate your path forward. This is a time of healing, renewal, and spiritual guidance. Trust in your dreams and let your inner light shine brightly. The universe is aligning to support your highest good, and positive changes are flowing into your life like starlight breaking through darkness.",
-                    image: "A figure kneeling by water under a starlit sky, pouring water from two vessels - one onto the land, one into the pool. Seven small stars and one large star shine overhead."
-                },
-                {
-                    name: "The Sun",
-                    emoji: "☀️",
-                    meaning: "Pure joy, success, and vitality surround you. This card brings optimism, achievement, and a time of celebration. Your authentic self is ready to shine, and happiness is within reach. Embrace the warmth of this positive energy and let it fuel your confidence to pursue your dreams with enthusiasm.",
-                    image: "A radiant sun with a face shines down on a child riding a white horse. Sunflowers bloom in the background, symbolizing growth and positivity."
-                },
-                {
-                    name: "The Lovers",
-                    emoji: "💕",
-                    meaning: "A significant choice or relationship decision awaits you. This card speaks of harmony, union, and alignment between heart and mind. Whether in love or life decisions, seek balance and make choices that resonate with your authentic values. True partnerships require mutual respect and understanding.",
-                    image: "A man and woman stand beneath an angel, with the Tree of Life and Tree of Knowledge behind them. The angel blesses their union from above."
-                },
-                {
-                    name: "Wheel of Fortune",
-                    emoji: "🎡",
-                    meaning: "Life's cycles are turning in your favor. Change, destiny, and new opportunities are approaching. What goes up must come down, and what is down will rise again. Embrace the natural flow of life's ups and downs, knowing that every ending creates space for a beautiful new beginning.",
-                    image: "A large wheel with mystical symbols rotates in the clouds. A sphinx sits atop, while a snake descends on the left and Anubis rises on the right."
-                }
-            ],
-            three: [
-                {
-                    cards: [
-                        { name: "Two of Cups", position: "Past", emoji: "🥂" },
-                        { name: "Three of Pentacles", position: "Present", emoji: "🛠️" },
-                        { name: "The Magician", position: "Future", emoji: "🎩" }
-                    ],
-                    meaning: "Your past connections and partnerships have laid a foundation of cooperation and mutual understanding. Currently, you're in a phase of building, learning, and collaborative growth - your skills and efforts are being recognized. The future holds powerful manifestation abilities; you have all the tools needed to create your desired reality. Trust in your capabilities and take action with confidence."
-                },
-                {
-                    cards: [
-                        { name: "Five of Swords", position: "Past", emoji: "⚔️" },
-                        { name: "The Hermit", position: "Present", emoji: "🔦" },
-                        { name: "Ace of Wands", position: "Future", emoji: "🌟" }
-                    ],
-                    meaning: "Past conflicts or defeats have led to important lessons about choosing your battles wisely. Now you're in a period of introspection and soul-searching, seeking inner wisdom and guidance. This inner work will soon bear fruit as new creative opportunities and passionate pursuits emerge. A spark of inspiration is coming that will ignite your next chapter."
-                }
-            ],
-            love: [
-                {
-                    name: "Two of Cups",
-                    emoji: "💑",
-                    meaning: "A beautiful partnership or soulmate connection is highlighted in your love life. This card represents mutual attraction, emotional harmony, and the potential for a deep, meaningful relationship. If you're single, love may be approaching. If partnered, this indicates a period of renewed connection and understanding with your significant other.",
-                    image: "Two figures face each other, holding cups in a toast. Above them, a winged lion's head represents the union of opposites and passionate love."
-                },
-                {
-                    name: "Ten of Cups",
-                    emoji: "🌈",
-                    meaning: "Emotional fulfillment and happiness in relationships are yours to embrace. This card represents the ideal of loving family bonds, committed partnerships, and joy shared with others. Your heart is open to giving and receiving love, and the universe is supporting harmonious relationships in your life.",
-                    image: "A couple raises their arms in celebration while two children play nearby. Ten cups arc across a rainbow in the sky, representing complete emotional satisfaction."
-                },
-                {
-                    name: "The Empress",
-                    emoji: "👸",
-                    meaning: "Divine feminine energy and nurturing love surround you. This card speaks of fertility, creativity, and abundance in matters of the heart. You're embodying magnetic, loving energy that attracts others to you. Whether seeking love or deepening existing bonds, your caring and compassionate nature is your greatest strength.",
-                    image: "A crowned empress sits on a throne in a lush garden, pregnant with new life. Venus symbols adorn her gown, and wheat grows at her feet."
-                }
-            ]
-        };
+        // Full 78-card tarot deck
+        const tarotCards = [
+            // Major Arcana
+            
+    {
+        name: "The Fool",
+        arcana: "Major",
+        number: 0,
+        keywords: ["new beginnings", "innocence", "spontaneity", "free spirit"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg",
+        upright: "New beginnings, innocence, spontaneity, free spirit",
+        reversed: "Recklessness, taken advantage of, inconsideration"
+    },
+    {
+        name: "The Magician",
+        arcana: "Major",
+        number: 1,
+        keywords: ["willpower", "desire", "creation", "manifestation"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg",
+        upright: "Willpower, desire, creation, manifestation",
+        reversed: "Trickery, illusions, out of touch"
+    },
+    {
+        name: "The High Priestess",
+        arcana: "Major",
+        number: 2,
+        keywords: ["intuitive", "unconscious", "inner voice"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_02_High_Priestess.jpg",
+        upright: "Intuitive, unconscious, inner voice",
+        reversed: "Lack of center, lost inner voice, repressed feelings"
+    },
+    {
+        name: "The Empress",
+        arcana: "Major",
+        number: 3,
+        keywords: ["motherhood", "fertility", "nature"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d2/RWS_Tarot_03_Empress.jpg",
+        upright: "Motherhood, fertility, nature",
+        reversed: "Dependence, smothering, emptiness, nosiness"
+    },
+    {
+        name: "The Emperor",
+        arcana: "Major",
+        number: 4,
+        keywords: ["authority", "structure", "control", "father figure"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/c/c3/RWS_Tarot_04_Emperor.jpg",
+        upright: "Authority, structure, control, father figure",
+        reversed: "Tyranny, rigidity, coldness"
+    },
+    {
+        name: "The Hierophant",
+        arcana: "Major",
+        number: 5,
+        keywords: ["tradition", "conformity", "morality", "ethics"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/8d/RWS_Tarot_05_Hierophant.jpg",
+        upright: "Tradition, conformity, morality, ethics",
+        reversed: "Personal beliefs, freedom, challenging the status quo"
+    },
+    {
+        name: "The Lovers",
+        arcana: "Major",
+        number: 6,
+        keywords: ["love", "union", "relationships", "values"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg",
+        upright: "Love, union, relationships, values",
+        reversed: "Disharmony, imbalance, misalignment of values"
+    },
+    {
+        name: "The Chariot",
+        arcana: "Major",
+        number: 7,
+        keywords: ["direction", "control", "willpower", "victory"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg",
+        upright: "Direction, control, willpower, victory",
+        reversed: "Lack of control, lack of direction, aggression"
+    },
+    {
+        name: "Strength",
+        arcana: "Major",
+        number: 8,
+        keywords: ["inner strength", "bravery", "compassion", "focus"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg",
+        upright: "Inner strength, bravery, compassion, focus",
+        reversed: "Self doubt, weakness, insecurity"
+    },
+    {
+        name: "The Hermit",
+        arcana: "Major",
+        number: 9,
+        keywords: ["inner guidance", "solitude", "seeking truth"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/RWS_Tarot_09_Hermit.jpg",
+        upright: "Inner guidance, solitude, seeking truth",
+        reversed: "Loneliness, isolation, lost your way"
+    },
+    {
+        name: "Wheel of Fortune",
+        arcana: "Major",
+        number: 10,
+        keywords: ["change", "cycles", "inevitable fate"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg",
+        upright: "Change, cycles, inevitable fate",
+        reversed: "No control, clinging to control, bad luck"
+    },
+    {
+        name: "Justice",
+        arcana: "Major",
+        number: 11,
+        keywords: ["cause and effect", "clarity", "truth"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e0/RWS_Tarot_11_Justice.jpg",
+        upright: "Cause and effect, clarity, truth",
+        reversed: "Dishonesty, unaccountability, unfairness"
+    },
+    {
+        name: "The Hanged Man",
+        arcana: "Major",
+        number: 12,
+        keywords: ["sacrifice", "release", "martyrdom"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/2/2b/RWS_Tarot_12_Hanged_Man.jpg",
+        upright: "Sacrifice, release, martyrdom",
+        reversed: "Stalling, needless sacrifice, fear of sacrifice"
+    },
+    {
+        name: "Death",
+        arcana: "Major",
+        number: 13,
+        keywords: ["transformation", "transition", "change"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d7/RWS_Tarot_13_Death.jpg",
+        upright: "Transformation, transition, change",
+        reversed: "Resistance to change, unable to move on"
+    },
+    {
+        name: "Temperance",
+        arcana: "Major",
+        number: 14,
+        keywords: ["middle path", "patience", "finding meaning"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/f8/RWS_Tarot_14_Temperance.jpg",
+        upright: "Middle path, patience, finding meaning",
+        reversed: "Extremes, excess, lack of balance"
+    },
+    {
+        name: "The Devil",
+        arcana: "Major",
+        number: 15,
+        keywords: ["addiction", "materialism", "playfulness"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/55/RWS_Tarot_15_Devil.jpg",
+        upright: "Addiction, materialism, playfulness",
+        reversed: "Freedom, release, restoring control"
+    },
+    {
+        name: "The Tower",
+        arcana: "Major",
+        number: 16,
+        keywords: ["sudden upheaval", "broken pride", "disaster"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg",
+        upright: "Sudden upheaval, broken pride, disaster",
+        reversed: "Disaster avoided, delayed disaster, fear of suffering"
+    },
+    {
+        name: "The Star",
+        arcana: "Major",
+        number: 17,
+        keywords: ["hope", "faith", "rejuvenation"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/88/RWS_Tarot_17_Star.jpg",
+        upright: "Hope, faith, rejuvenation",
+        reversed: "Discouragement, insecurity, lack of faith"
+    },
+    {
+        name: "The Moon",
+        arcana: "Major",
+        number: 18,
+        keywords: ["unconscious", "illusions", "intuition"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/RWS_Tarot_18_Moon.jpg",
+        upright: "Unconscious, illusions, intuition",
+        reversed: "Confusion, fear, misinterpretation"
+    },
+    {
+        name: "The Sun",
+        arcana: "Major",
+        number: 19,
+        keywords: ["joy", "success", "celebration", "positivity"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/17/RWS_Tarot_19_Sun.jpg",
+        upright: "Joy, success, celebration, positivity",
+        reversed: "Negativity, depression, sadness"
+    },
+    {
+        name: "Judgement",
+        arcana: "Major",
+        number: 20,
+        keywords: ["reflection", "reckoning", "awakening"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/dd/RWS_Tarot_20_Judgement.jpg",
+        upright: "Reflection, reckoning, awakening",
+        reversed: "Lack of self awareness, doubt, self loathing"
+    },
+    {
+        name: "The World",
+        arcana: "Major",
+        number: 21,
+        keywords: ["fulfillment", "harmony", "completion"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/ff/RWS_Tarot_21_World.jpg",
+        upright: "Fulfillment, harmony, completion",
+        reversed: "Incomplete, no closure"
+    },
+
+    // CUPS SUIT (14 cards)
+    {
+        name: "Ace of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 1,
+        keywords: ["new love", "emotional beginning", "spiritual gift"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/36/Cups01.jpg",
+        upright: "New love, emotional beginning, spiritual gift",
+        reversed: "Emotional loss, blocked creativity, emptiness"
+    },
+    {
+        name: "Two of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 2,
+        keywords: ["unity", "partnership", "connection"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/f8/Cups02.jpg",
+        upright: "Unity, partnership, connection",
+        reversed: "Imbalance, broken communication, tension"
+    },
+    {
+        name: "Three of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 3,
+        keywords: ["friendship", "community", "happiness"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Cups03.jpg",
+        upright: "Friendship, community, happiness",
+        reversed: "Overindulgence, gossip, isolation"
+    },
+    {
+        name: "Four of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 4,
+        keywords: ["apathy", "contemplation", "disconnectedness"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/35/Cups04.jpg",
+        upright: "Apathy, contemplation, disconnectedness",
+        reversed: "Sudden awareness, choosing happiness, acceptance"
+    },
+    {
+        name: "Five of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 5,
+        keywords: ["loss", "grief", "disappointment"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Cups05.jpg",
+        upright: "Loss, grief, disappointment",
+        reversed: "Acceptance, moving on, finding peace"
+    },
+    {
+        name: "Six of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 6,
+        keywords: ["nostalgia", "childhood memories", "innocence"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/17/Cups06.jpg",
+        upright: "Nostalgia, childhood memories, innocence",
+        reversed: "Moving forward, leaving the past, independence"
+    },
+    {
+        name: "Seven of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 7,
+        keywords: ["illusion", "choices", "wishful thinking"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Cups07.jpg",
+        upright: "Illusion, choices, wishful thinking",
+        reversed: "Clarity, making choices, personal values"
+    },
+    {
+        name: "Eight of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 8,
+        keywords: ["walking away", "disillusionment", "leaving behind"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/6/60/Cups08.jpg",
+        upright: "Walking away, disillusionment, leaving behind",
+        reversed: "Trying one more time, indecision, aimless drifting"
+    },
+    {
+        name: "Nine of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 9,
+        keywords: ["satisfaction", "emotional stability", "luxury"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/2/24/Cups09.jpg",
+        upright: "Satisfaction, emotional stability, luxury",
+        reversed: "Lack of fulfillment, mistakes, imperfection"
+    },
+    {
+        name: "Ten of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 10,
+        keywords: ["happiness", "fulfillment", "emotional security"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/84/Cups10.jpg",
+        upright: "Happiness, fulfillment, emotional security",
+        reversed: "Unhappy home, broken family, domestic disharmony"
+    },
+    {
+        name: "Page of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 11,
+        keywords: ["creative opportunities", "intuitive messages", "curiosity"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Cups11.jpg",
+        upright: "Creative opportunities, intuitive messages, curiosity",
+        reversed: "Emotional immaturity, insecurity, disappointment"
+    },
+    {
+        name: "Knight of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 12,
+        keywords: ["following the heart", "idealist", "romantic"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Cups12.jpg",
+        upright: "Following the heart, idealist, romantic",
+        reversed: "Moodiness, disappointment"
+    },
+    {
+        name: "Queen of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 13,
+        keywords: ["compassion", "calm", "comfort"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/6/62/Cups13.jpg",
+        upright: "Compassion, calm, comfort",
+        reversed: "Martyrdom, insecurity, dependence"
+    },
+    {
+        name: "King of Cups",
+        arcana: "Minor",
+        suit: "Cups",
+        number: 14,
+        keywords: ["compassion", "control", "balance"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/0/04/Cups14.jpg",
+        upright: "Compassion, control, balance",
+        reversed: "Coldness, moodiness, bad advice"
+    },
+
+    // PENTACLES SUIT (14 cards)
+    {
+        name: "Ace of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 1,
+        keywords: ["opportunity", "prosperity", "new venture"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Pents01.jpg",
+        upright: "Opportunity, prosperity, new venture",
+        reversed: "Lost opportunity, missed chance, bad investment"
+    },
+    {
+        name: "Two of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 2,
+        keywords: ["balancing decisions", "priorities", "adapting to change"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Pents02.jpg",
+        upright: "Balancing decisions, priorities, adapting to change",
+        reversed: "Loss of balance, disorganized, overwhelmed"
+    },
+    {
+        name: "Three of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 3,
+        keywords: ["teamwork", "collaboration", "building"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Pents03.jpg",
+        upright: "Teamwork, collaboration, building",
+        reversed: "Lack of teamwork, disorganized, group conflict"
+    },
+    {
+        name: "Four of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 4,
+        keywords: ["conservation", "frugality", "security"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/35/Pents04.jpg",
+        upright: "Conservation, frugality, security",
+        reversed: "Greediness, stinginess, possessiveness"
+    },
+    {
+        name: "Five of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 5,
+        keywords: ["need", "poverty", "insecurity"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/96/Pents05.jpg",
+        upright: "Need, poverty, insecurity",
+        reversed: "Recovery, charity, improvement"
+    },
+    {
+        name: "Six of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 6,
+        keywords: ["charity", "generosity", "sharing"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Pents06.jpg",
+        upright: "Charity, generosity, sharing",
+        reversed: "Selfishness, cheap, overbearing charity"
+    },
+    {
+        name: "Seven of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 7,
+        keywords: ["hard work", "perseverance", "diligence"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Pents07.jpg",
+        upright: "Hard work, perseverance, diligence",
+        reversed: "Work without results, distractions, lack of rewards"
+    },
+    {
+        name: "Eight of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 8,
+        keywords: ["apprenticeship", "repetitive tasks", "mastery"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/49/Pents08.jpg",
+        upright: "Apprenticeship, repetitive tasks, mastery",
+        reversed: "Lack of focus, perfectionism, misdirected activity"
+    },
+    {
+        name: "Nine of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 9,
+        keywords: ["fruits of labor", "rewards", "luxury"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Pents09.jpg",
+        upright: "Fruits of labor, rewards, luxury",
+        reversed: "Reckless spending, living beyond means, false success"
+    },
+    {
+        name: "Ten of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 10,
+        keywords: ["legacy", "culmination", "inheritance"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/42/Pents10.jpg",
+        upright: "Legacy, culmination, inheritance",
+        reversed: "Fleeting success, lack of stability, lack of resources"
+    },
+    {
+        name: "Page of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 11,
+        keywords: ["ambition", "desire", "diligence"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Pents11.jpg",
+        upright: "Ambition, desire, diligence",
+        reversed: "Lack of commitment, greediness, laziness"
+    },
+    {
+        name: "Knight of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 12,
+        keywords: ["efficiency", "hard work", "responsibility"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Pents12.jpg",
+        upright: "Efficiency, hard work, responsibility",
+        reversed: "Laziness, obsessiveness, work without reward"
+    },
+    {
+        name: "Queen of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 13,
+        keywords: ["practicality", "creature comforts", "financial security"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Pents13.jpg",
+        upright: "Practicality, creature comforts, financial security",
+        reversed: "Financial independence, self-made, work-home imbalance"
+    },
+    {
+        name: "King of Pentacles",
+        arcana: "Minor",
+        suit: "Pentacles",
+        number: 14,
+        keywords: ["abundance", "quiet power", "security"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Pents14.jpg",
+        upright: "Abundance, quiet power, security",
+        reversed: "Jealousy, materialism, smothering"
+    },
+
+    // SWORDS SUIT (14 cards)
+    {
+        name: "Ace of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 1,
+        keywords: ["breakthrough", "clarity", "sharp mind"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Swords01.jpg",
+        upright: "Breakthrough, clarity, sharp mind",
+        reversed: "Confusion, brutality, chaos"
+    },
+    {
+        name: "Two of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 2,
+        keywords: ["difficult choices", "indecision", "balance"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/9e/Swords02.jpg",
+        upright: "Difficult choices, indecision, balance",
+        reversed: "Lesser of two evils, no right choice, confusion"
+    },
+    {
+        name: "Three of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 3,
+        keywords: ["heartbreak", "suffering", "grief"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/0/02/Swords03.jpg",
+        upright: "Heartbreak, suffering, grief",
+        reversed: "Recovery, forgiveness, moving on"
+    },
+    {
+        name: "Four of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 4,
+        keywords: ["rest", "restoration", "contemplation"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Swords04.jpg",
+        upright: "Rest, restoration, contemplation",
+        reversed: "Restlessness, burnout, stress"
+    },
+    {
+        name: "Five of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 5,
+        keywords: ["unbridled ambition", "win at all costs", "sneakiness"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/2/23/Swords05.jpg",
+        upright: "Unbridled ambition, win at all costs, sneakiness",
+        reversed: "Lingering resentment, desire to reconcile, forgiveness"
+    },
+    {
+        name: "Six of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 6,
+        keywords: ["transition", "leaving behind", "moving forward"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/2/29/Swords06.jpg",
+        upright: "Transition, leaving behind, moving forward",
+        reversed: "Stuck in past, unable to move on, seeking closure"
+    },
+    {
+        name: "Seven of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 7,
+        keywords: ["deception", "getting away with something", "stealth"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/34/Swords07.jpg",
+        upright: "Deception, getting away with something, stealth",
+        reversed: "Getting caught, desire to come clean, turning over new leaf"
+    },
+    {
+        name: "Eight of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 8,
+        keywords: ["imprisonment", "entrapment", "self-victimization"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Swords08.jpg",
+        upright: "Imprisonment, entrapment, self-victimization",
+        reversed: "Self acceptance, new perspective, freedom"
+    },
+    {
+        name: "Nine of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 9,
+        keywords: ["anxiety", "worry", "fear"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Swords09.jpg",
+        upright: "Anxiety, worry, fear",
+        reversed: "Recovery, learning to cope, facing life"
+    },
+    {
+        name: "Ten of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 10,
+        keywords: ["failure", "collapse", "defeat"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords10.jpg",
+        upright: "Failure, collapse, defeat",
+        reversed: "Recovery, regeneration, resisting an inevitable end"
+    },
+    {
+        name: "Page of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 11,
+        keywords: ["curiosity", "restlessness", "mental energy"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Swords11.jpg",
+        upright: "Curiosity, restlessness, mental energy",
+        reversed: "Deception, manipulation, all talk"
+    },
+    {
+        name: "Knight of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 12,
+        keywords: ["action", "impulsiveness", "defending beliefs"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Swords12.jpg",
+        upright: "Action, impulsiveness, defending beliefs",
+        reversed: "No direction, disregard for consequences, unpredictability"
+    },
+    {
+        name: "Queen of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 13,
+        keywords: ["complexity", "perceptive", "clear boundaries"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Swords13.jpg",
+        upright: "Complexity, perceptive, clear boundaries",
+        reversed: "Cold hearted, cruel, bitterness"
+    },
+    {
+        name: "King of Swords",
+        arcana: "Minor",
+        suit: "Swords",
+        number: 14,
+        keywords: ["head over heart", "discipline", "truth"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/33/Swords14.jpg",
+        upright: "Head over heart, discipline, truth",
+        reversed: "Manipulative, cruel, weakness"
+    },
+
+// WANDS SUIT (14 cards)
+    {
+        name: "Ace of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 1,
+        keywords: ["creation", "willpower", "inspiration", "desire"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/11/Wands01.jpg",
+        upright: "Creation, willpower, inspiration, desire",
+        reversed: "Lack of energy, lack of passion, boredom"
+    },
+    {
+        name: "Two of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 2,
+        keywords: ["planning", "making decisions", "leaving home"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Wands02.jpg",
+        upright: "Planning, making decisions, leaving home",
+        reversed: "Bad planning, overanalysis, not taking action"
+    },
+    {
+        name: "Three of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 3,
+        keywords: ["looking ahead", "expansion", "rapid growth"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Wands03.jpg",
+        upright: "Looking ahead, expansion, rapid growth",
+        reversed: "Obstacles to long-term goals, lack of progress"
+    },
+    {
+        name: "Four of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 4,
+        keywords: ["community", "home", "celebration"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands04.jpg",
+        upright: "Community, home, celebration",
+        reversed: "Instability, a rocky foundation, transition"
+    },
+    {
+        name: "Five of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 5,
+        keywords: ["strife", "competition", "disagreement"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Wands05.jpg",
+        upright: "Strife, competition, disagreement",
+        reversed: "Conflict avoidance, disagreements, inner conflict"
+    },
+    {
+        name: "Six of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 6,
+        keywords: ["victory", "success", "public recognition"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands06.jpg",
+        upright: "Victory, success, public recognition",
+        reversed: "Egotism, lack of recognition, fall from grace"
+    },
+    {
+        name: "Seven of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 7,
+        keywords: ["challenge", "perseverance", "defending beliefs"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands07.jpg",
+        upright: "Challenge, perseverance, defending beliefs",
+        reversed: "Giving up, feeling overwhelmed, losing conviction"
+    },
+    {
+        name: "Eight of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 8,
+        keywords: ["action", "speed", "air travel", "movement"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands08.jpg",
+        upright: "Action, speed, air travel, movement",
+        reversed: "Stagnation, delays, slow progress"
+    },
+    {
+        name: "Nine of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 9,
+        keywords: ["resilience", "courage", "inner strength"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands09.jpg",
+        upright: "Resilience, courage, inner strength",
+        reversed: "Exhaustion, feeling a lack of courage, burnout"
+    },
+    {
+        name: "Ten of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 10,
+        keywords: ["burden", "responsibility", "hard work"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands10.jpg",
+        upright: "Burden, responsibility, hard work",
+        reversed: "Overwhelmed, unable to cope, taking on too much"
+    },
+    {
+        name: "Page of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 11,
+        keywords: ["creativity", "enthusiasm", "new adventures"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands11.jpg",
+        upright: "Creativity, enthusiasm, new adventures",
+        reversed: "Lack of enthusiasm, creative blocks, a lack of ideas"
+    },
+    {
+        name: "Knight of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 12,
+        keywords: ["action", "passion", "adventure"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands12.jpg",
+        upright: "Action, passion, adventure",
+        reversed: "Impulsiveness, recklessness, a lack of direction"
+    },
+    {
+        name: "Queen of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 13,
+        keywords: ["confidence", "determination", "social charm"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands13.jpg",
+        upright: "Confidence, determination, social charm",
+        reversed: "Demanding, vengeful, selfish"
+    },
+    {
+        name: "King of Wands",
+        arcana: "Minor",
+        suit: "Wands",
+        number: 14,
+        keywords: ["leadership", "vision", "entrepreneurship"],
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Wands14.jpg",
+        upright: "Leadership, vision, entrepreneurship",
+        reversed: "Ruthless, tyrannical, overly demanding"
+    }
+];
+
 
         // Spread selection
         document.querySelectorAll('.spread-btn').forEach(btn => {
@@ -943,6 +1719,33 @@
                 selectedSpread = this.dataset.spread;
             });
         });
+
+        // Fisher-Yates shuffle for random card draws
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Mock AI API call (replace with DeepSeek or Gemini)
+        async function getAIInterpretation(cards, question, spreadType) {
+            // Placeholder: Mock response for testing
+            // In production, replace with fetch to DeepSeek API
+            /*
+            const response = await fetch('https://api.deepseek.com/v1/interpret', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer YOUR_API_KEY', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cards, question, spread: spreadType })
+            });
+            return await response.json();
+            */
+            return {
+                interpretation: `Based on your question "${question}", the cards ${cards.map(c => c.name).join(', ')} suggest: ${cards.map(c => `${c.name} (${c.keywords})`).join('; ')}. A deeper reading will weave these into a cohesive narrative.`
+            };
+        }
 
         // Main card drawing function
         async function drawCards() {
@@ -964,70 +1767,68 @@
             document.getElementById('readingModal').style.display = 'flex';
             document.getElementById('readingContent').innerHTML = '<div class="loading">The cards are being shuffled by cosmic forces...</div>';
 
-            // Simulate card drawing delay
-            setTimeout(() => {
-                generateReading(question);
+            // Simulate card drawing and AI delay
+            setTimeout(async () => {
+                await generateReading(question);
                 isDrawing = false;
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }, 2000);
         }
 
-        function generateReading(question) {
-            const cards = tarotCards[selectedSpread];
-            let selectedCard;
+        async function generateReading(question) {
+            // Define spread sizes and labels
+            const spreadConfig = {
+                single: { count: 1, title: "Your Guidance", positions: ["Present"] },
+                three: { count: 3, title: "Past • Present • Future", positions: ["Past", "Present", "Future"] },
+                love: { count: 3, title: "Love Reading", positions: ["You", "Partner", "Relationship"] }
+            };
 
-            if (selectedSpread === 'three') {
-                selectedCard = cards[Math.floor(Math.random() * cards.length)];
-            } else {
-                selectedCard = cards[Math.floor(Math.random() * cards.length)];
-            }
+            const config = spreadConfig[selectedSpread];
+            // Shuffle deck and draw unique cards
+            const shuffledDeck = shuffleArray(tarotCards);
+            const drawnCards = shuffledDeck.slice(0, config.count);
 
-            let html = '';
+            // Get AI interpretation (mock for now)
+            const aiResponse = await getAIInterpretation(drawnCards, question, selectedSpread);
 
-            if (selectedSpread === 'three') {
-                // Three card spread layout
-                html = `
-                    <div class="cards-container">
-                        ${selectedCard.cards.map(card => `
-                            <div class="tarot-card card-revealed">
-                                <div style="text-align: center;">
-                                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">${card.emoji}</div>
-                                    <div style="font-size: 0.7rem; font-weight: bold; margin-bottom: 0.3rem;">${card.position.toUpperCase()}</div>
-                                    <div style="font-size: 0.8rem; line-height: 1.2;">${card.name}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="reading-result">
-                        <h4>Your Three-Card Reading: Past • Present • Future</h4>
-                        <p><strong>Your Question:</strong> "${question}"</p>
-                        <br>
-                        <p>${selectedCard.meaning}</p>
-                    </div>
-                `;
-            } else {
-                // Single card layout
-                html = `
-                    <div class="cards-container">
-                        <div class="tarot-card card-revealed">
-                            <div style="text-align: center;">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">${selectedCard.emoji}</div>
-                                <div style="font-size: 1rem; font-weight: bold; line-height: 1.2;">${selectedCard.name}</div>
-                            </div>
+            // Generate HTML for cards
+            const cardsHtml = drawnCards.map((card, index) => `
+                <div class="tarot-card" role="img" aria-label="${card.alt}">
+                    <div class="tarot-card-inner">
+                        <div class="tarot-card-front"></div>
+                        <div class="tarot-card-back">
+                            <img src="${card.image}" alt="${card.alt}" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #ffffff, #f0f0f0)'">
+                            <h4>${config.positions[index]}: ${card.name}</h4>
+                            <p>${card.keywords}</p>
                         </div>
                     </div>
-                    <div class="reading-result">
-                        <h4>${selectedCard.name} - Your Guidance</h4>
-                        <p><strong>Your Question:</strong> "${question}"</p>
-                        <br>
-                        <p>${selectedCard.meaning}</p>
-                        ${selectedCard.image ? `<br><p style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">Card imagery: ${selectedCard.image}</p>` : ''}
-                    </div>
-                `;
-            }
+                </div>
+            `).join('');
+
+            // Generate reading HTML
+            const html = `
+                <div class="cards-container">
+                    ${cardsHtml}
+                </div>
+                <div class="reading-result">
+                    <h4>${config.title}</h4>
+                    <p><strong>Your Question:</strong> "${question}"</p>
+                    <br>
+                    <p>${aiResponse.interpretation}</p>
+                </div>
+            `;
 
             document.getElementById('readingContent').innerHTML = html;
+
+            // Trigger flip animation
+            setTimeout(() => {
+                document.querySelectorAll('.tarot-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('flipped');
+                    }, index * 300);
+                });
+            }, 500);
         }
 
         function closeModal() {
@@ -1037,6 +1838,13 @@
         // Close modal when clicking outside
         document.getElementById('readingModal').addEventListener('click', function(e) {
             if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Keyboard support for modal close
+        document.getElementById('readingModal').addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
                 closeModal();
             }
         });
@@ -1055,7 +1863,7 @@
             });
         });
 
-        // Add some interactive sparkle effects
+        // Add sparkle effects
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.innerHTML = '✨';
@@ -1075,10 +1883,9 @@
             }, 3000);
         }
 
-        // Create occasional sparkles
         setInterval(createSparkle, 3000);
 
-        // Add entrance animations when elements come into view
+        // Entrance animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1093,7 +1900,6 @@
             });
         }, observerOptions);
 
-        // Observe feature cards for animation
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.feature-card').forEach((card, index) => {
                 card.style.opacity = '0';
